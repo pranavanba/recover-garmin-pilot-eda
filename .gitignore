@@ -47,3 +47,9 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Quarto doc files
+Garmin\ Pilot\ Data\ Exploratory\ Analysis_files
+
+# Data files
+garmin_pilot_files
