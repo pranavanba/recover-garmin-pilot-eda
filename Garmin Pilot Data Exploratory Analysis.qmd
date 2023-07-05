@@ -1,0 +1,84 @@
+---
+title: "Garmin Pilot Data Exploratory Analysis"
+author: "Pranav Anbarasu"
+format: 
+  html:
+    toc: true
+    df-print: kable
+editor: visual
+execute:
+  echo: false
+---
+
+```{r}
+#| output: false
+library(synapser)
+library(recoverSummarizeR)
+library(dplyr)
+library(jsonlite)
+library(tidyr)
+library(magrittr)
+library(tibble)
+```
+
+```{r}
+#| output: false
+# Get data from Synapse
+synLogin()
+garmin_pilot_files <- synGet('syn51900030')
+unzip(garmin_pilot_files$path, exdir = '~/recover-garmin-pilot-eda/garmin_pilot_files')
+garmin_manifest <- read.csv('~/recover-garmin-pilot-eda/garmin_pilot_files/Manifest.csv')
+```
+
+## Cleaned Manifest
+
+```{r}
+garmin_manifest_clean <- garmin_manifest %>% melt_df() %>% rename(file=concept, rows=value) %>% filter(!grepl("Export", file)) %>% filter(!grepl("Excluded", file))
+garmin_manifest_clean
+```
+
+## List of Files
+
+```{r}
+garmin_files_list <- list.files('~/recover-garmin-pilot-eda/garmin_pilot_files/', full.names = F) %>% as_tibble() %>% rename(file=value)
+garmin_files_list
+```
+
+## Number of Empty and Non-Empty Files
+
+```{r}
+empty_count <- garmin_manifest_clean$rows[which(garmin_manifest_clean$rows==0)] %>% length()
+non_empty_count <- nrow(garmin_manifest_clean)-empty_count
+
+data.frame(status=c("empty", "non_empty"), count=c(empty_count, non_empty_count))
+```
+
+## Non-Empty Files
+
+```{r}
+garmin_manifest_clean_non_empty <- garmin_manifest_clean %>% filter(rows>0)
+garmin_manifest_clean_non_empty
+```
+
+## Variables in Each File
+
+```{r}
+#| output: false
+file_var_list <- list()
+
+for (file in list.files('~/recover-garmin-pilot-eda/garmin_pilot_files/', pattern = '*.json', full.names = T)) {
+  file_name <- tools::file_path_sans_ext(basename(file))
+  
+  data <- stream_in(con = file(file), verbose = F)
+  
+  var_names <- colnames(data)
+  
+  file_var_list[[file_name]] <- var_names
+}
+```
+
+```{r}
+file_var_df <- file_var_list %>% enframe %>% unnest_longer(col = value) %>% rename(file=name, variable=value)
+
+file_var_df
+```

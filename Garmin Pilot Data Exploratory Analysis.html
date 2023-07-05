@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Pranav Anbarasu">
+
+<title>Garmin Pilot Data Exploratory Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Garmin Pilot Data Exploratory Analysis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Garmin Pilot Data Exploratory Analysis_files/libs/quarto-html/quarto.js"></script>
+<script src="Garmin Pilot Data Exploratory Analysis_files/libs/quarto-html/popper.min.js"></script>
+<script src="Garmin Pilot Data Exploratory Analysis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Garmin Pilot Data Exploratory Analysis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Garmin Pilot Data Exploratory Analysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Garmin Pilot Data Exploratory Analysis_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Garmin Pilot Data Exploratory Analysis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Garmin Pilot Data Exploratory Analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Garmin Pilot Data Exploratory Analysis_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#cleaned-manifest" id="toc-cleaned-manifest" class="nav-link active" data-scroll-target="#cleaned-manifest">Cleaned Manifest</a></li>
+  <li><a href="#list-of-files" id="toc-list-of-files" class="nav-link" data-scroll-target="#list-of-files">List of Files</a></li>
+  <li><a href="#number-of-empty-and-non-empty-files" id="toc-number-of-empty-and-non-empty-files" class="nav-link" data-scroll-target="#number-of-empty-and-non-empty-files">Number of Empty and Non-Empty Files</a></li>
+  <li><a href="#non-empty-files" id="toc-non-empty-files" class="nav-link" data-scroll-target="#non-empty-files">Non-Empty Files</a></li>
+  <li><a href="#variables-in-each-file" id="toc-variables-in-each-file" class="nav-link" data-scroll-target="#variables-in-each-file">Variables in Each File</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Garmin Pilot Data Exploratory Analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Pranav Anbarasu </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="cleaned-manifest" class="level2">
+<h2 class="anchored" data-anchor-id="cleaned-manifest">Cleaned Manifest</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">file</th>
+<th style="text-align: left;">rows</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SymptomLog</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitSleepLogs</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitActivityLogs</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitRestingHeartRates</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDevices</td>
+<td style="text-align: left;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GoogleFitSamples</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EnrolledParticipants</td>
+<td style="text-align: left;">20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitIntradayCombined</td>
+<td style="text-align: left;">10050</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData</td>
+<td style="text-align: left;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminHealthSnapshotSummary</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary</td>
+<td style="text-align: left;">194</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminThirdPartyDailySummary</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminActivitySummary</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminActivityDetailsSummary</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminRespirationSummary</td>
+<td style="text-align: left;">920</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminBloodPressureSummary</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminEpochSummary</td>
+<td style="text-align: left;">18754</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminBodyCompositionSummary</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminStressDetailSummary</td>
+<td style="text-align: left;">194</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminUserMetricsSummary</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminPulseOxSummary</td>
+<td style="text-align: left;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminHrvSummary</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminSleepSummary</td>
+<td style="text-align: left;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminMoveIQActivitySummary</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminManuallyUpdatedActivitySummary</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_BodyFatPercentage</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_BodyFatPercentage_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_Weight</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_Weight_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_Steps</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_Steps_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_DistanceWalkingRunning</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_DistanceWalkingRunning_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_DistanceCycling</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_DistanceCycling_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_DistanceWheelchair</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_DistanceWheelchair_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_FlightsClimbed</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_FlightsClimbed_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_AppleExerciseTime</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_AppleExerciseTime_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_WheelchairPushCount</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_WheelchairPushCount_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_DistanceSwimming</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_DistanceSwimming_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_SwimmingStrokeCount</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_SwimmingStrokeCount_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_VO2Max</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_VO2Max_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_HeartRateRecoveryOneMinute</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_HeartRateRecoveryOneMinute_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_DistanceDownhillSnowSports</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_DistanceDownhillSnowSports_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_WalkingSpeed</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_WalkingSpeed_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_WalkingDoubleSupportPercentage</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_WalkingDoubleSupportPercentage_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_WalkingAsymmetryPercentage</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_WalkingAsymmetryPercentage_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_WalkingStepLength</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_WalkingStepLength_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_AppleWalkingSteadiness</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_AppleWalkingSteadiness_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_SixMinuteWalkTestDistance</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_SixMinuteWalkTestDistance_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_StairAscentSpeed</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_StairAscentSpeed_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_StairDescentSpeed</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_StairDescentSpeed_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_HeartRate</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_HeartRate_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_Temperature</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_Temperature_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_BloodPressureSystolic</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_BloodPressureSystolic_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_BloodPressureDiastolic</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_BloodPressureDiastolic_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_RespiratoryRate</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_RespiratoryRate_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_RestingHeartRate</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_RestingHeartRate_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_WalkingHeartRateAverage</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_WalkingHeartRateAverage_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_HeartRateVariability</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_HeartRateVariability_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_AtrialFibrillationBurden</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_AtrialFibrillationBurden_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_OxygenSaturation</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_OxygenSaturation_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_PeripheralPerfusionIndex</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_PeripheralPerfusionIndex_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_BloodGlucose</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_BloodGlucose_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_NumberOfTimesFallen</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_NumberOfTimesFallen_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_ElectrodermalActivity</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_ElectrodermalActivity_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_AppleSleepingWristTemperature</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_AppleSleepingWristTemperature_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_InhalerUsage</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_InhalerUsage_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_InsulinDelivery</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_InsulinDelivery_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_FVC</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_FVC_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_FEV1</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_FEV1_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_PEF</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_PEF_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_EnvironmentalAudioExposure</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_EnvironmentalAudioExposure_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_HeadphoneAudioExposure</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_HeadphoneAudioExposure_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_AppleStandTime</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_AppleStandTime_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Workouts</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2ActivitySummaries</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Statistics_DailySteps</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Statistics_HourlySteps</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Statistics_HourlyDistanceWalkingRunning</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Statistics_HourlyMaximumHeartRate</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Statistics_HourlyMinimumHeartRate</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Electrocardiogram_Samples</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Heartbeat_Samples</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Heartbeat_Samples_Deleted</td>
+<td style="text-align: left;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="list-of-files" class="level2">
+<h2 class="anchored" data-anchor-id="list-of-files">List of Files</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 100%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">file</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">EnrolledParticipants_20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitActivityLogs_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDevices_20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitIntradayCombined_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitRestingHeartRates_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitSleepLogs_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminActivityDetailsSummary_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminActivitySummary_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminBloodPressureSummary_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminBodyCompositionSummary_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminHealthSnapshotSummary_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminHrvSummary_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminManuallyUpdatedActivitySummary_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminMoveIQActivitySummary_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminPulseOxSummary_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminRespirationSummary_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminStressDetailSummary_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminThirdPartyDailySummary_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminUserMetricsSummary_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GoogleFitSamples_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2ActivitySummaries_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Electrocardiogram_Samples_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Heartbeat_Samples_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Heartbeat_Samples_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_AppleExerciseTime_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_AppleExerciseTime_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_AppleSleepingWristTemperature_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_AppleSleepingWristTemperature_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_AppleStandTime_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_AppleStandTime_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_AppleWalkingSteadiness_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_AppleWalkingSteadiness_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_AtrialFibrillationBurden_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_AtrialFibrillationBurden_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_BloodGlucose_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_BloodGlucose_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_BloodPressureDiastolic_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_BloodPressureDiastolic_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_BloodPressureSystolic_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_BloodPressureSystolic_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_BodyFatPercentage_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_BodyFatPercentage_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_DistanceCycling_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_DistanceCycling_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_DistanceDownhillSnowSports_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_DistanceDownhillSnowSports_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_DistanceSwimming_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_DistanceSwimming_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_DistanceWalkingRunning_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_DistanceWalkingRunning_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_DistanceWheelchair_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_DistanceWheelchair_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_ElectrodermalActivity_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_ElectrodermalActivity_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_EnvironmentalAudioExposure_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_EnvironmentalAudioExposure_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_FEV1_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_FEV1_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_FlightsClimbed_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_FlightsClimbed_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_FVC_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_FVC_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_HeadphoneAudioExposure_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_HeadphoneAudioExposure_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_HeartRate_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_HeartRate_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_HeartRateRecoveryOneMinute_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_HeartRateRecoveryOneMinute_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_HeartRateVariability_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_HeartRateVariability_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_InhalerUsage_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_InhalerUsage_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_InsulinDelivery_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_InsulinDelivery_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_NumberOfTimesFallen_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_NumberOfTimesFallen_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_OxygenSaturation_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_OxygenSaturation_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_PEF_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_PEF_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_PeripheralPerfusionIndex_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_PeripheralPerfusionIndex_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_RespiratoryRate_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_RespiratoryRate_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_RestingHeartRate_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_RestingHeartRate_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_SixMinuteWalkTestDistance_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_SixMinuteWalkTestDistance_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_StairAscentSpeed_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_StairAscentSpeed_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_StairDescentSpeed_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_StairDescentSpeed_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_Steps_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_Steps_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_SwimmingStrokeCount_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_SwimmingStrokeCount_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_Temperature_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_Temperature_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_VO2Max_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_VO2Max_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_WalkingAsymmetryPercentage_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_WalkingAsymmetryPercentage_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_WalkingDoubleSupportPercentage_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_WalkingDoubleSupportPercentage_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_WalkingHeartRateAverage_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_WalkingHeartRateAverage_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_WalkingSpeed_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_WalkingSpeed_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_WalkingStepLength_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_WalkingStepLength_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_Weight_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_Weight_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Samples_WheelchairPushCount_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Samples_WheelchairPushCount_Deleted_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Statistics_DailySteps_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Statistics_HourlyDistanceWalkingRunning_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Statistics_HourlyMaximumHeartRate_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Statistics_HourlyMinimumHeartRate_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HealthKitV2Statistics_HourlySteps_20230626-20230627.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HealthKitV2Workouts_20230626-20230627.json</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Manifest.csv</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SymptomLog_20230626-20230627.json</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="number-of-empty-and-non-empty-files" class="level2">
+<h2 class="anchored" data-anchor-id="number-of-empty-and-non-empty-files">Number of Empty and Non-Empty Files</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">status</th>
+<th style="text-align: right;">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">empty</td>
+<td style="text-align: right;">114</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">non_empty</td>
+<td style="text-align: right;">11</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="non-empty-files" class="level2">
+<h2 class="anchored" data-anchor-id="non-empty-files">Non-Empty Files</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">file</th>
+<th style="text-align: left;">rows</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">FitbitDevices</td>
+<td style="text-align: left;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EnrolledParticipants</td>
+<td style="text-align: left;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitIntradayCombined</td>
+<td style="text-align: left;">10050</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDailyData</td>
+<td style="text-align: left;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary</td>
+<td style="text-align: left;">194</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminRespirationSummary</td>
+<td style="text-align: left;">920</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminEpochSummary</td>
+<td style="text-align: left;">18754</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminStressDetailSummary</td>
+<td style="text-align: left;">194</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminPulseOxSummary</td>
+<td style="text-align: left;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminHrvSummary</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminSleepSummary</td>
+<td style="text-align: left;">8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="variables-in-each-file" class="level2">
+<h2 class="anchored" data-anchor-id="variables-in-each-file">Variables in Each File</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 55%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">file</th>
+<th style="text-align: left;">variable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">ParticipantIdentifier</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">GlobalKey</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">EmailAddress</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">EnrollmentDate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">EventDates</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">CustomFields</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">UtcOffset</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">TimeZone</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">ParticipantID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">FirstName</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">LastName</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">Gender</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">DateOfBirth</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">MiddleName</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EnrolledParticipants_20230627</td>
+<td style="text-align: left;">PostalCode</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">ParticipantIdentifier</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">Date</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">ActivityCalories</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">BodyBmi</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">BodyFat</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">BodyWeight</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">Calories</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">CaloriesBMR</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">Distance</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">FoodCaloriesIn</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">HeartRateIntradayCount</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">HeartRateIntradayMinuteCount</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">HeartRateZone</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">MinutesFairlyActive</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">MinutesLightlyActive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">MinutesSedentary</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">MinutesVeryActive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">Steps</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">Tracker</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">Water</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">ModifiedDate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDailyData_20230626-20230627</td>
+<td style="text-align: left;">ParticipantID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDevices_20230627</td>
+<td style="text-align: left;">ParticipantIdentifier</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDevices_20230627</td>
+<td style="text-align: left;">Date</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDevices_20230627</td>
+<td style="text-align: left;">Device</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDevices_20230627</td>
+<td style="text-align: left;">Battery</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitDevices_20230627</td>
+<td style="text-align: left;">Type</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitDevices_20230627</td>
+<td style="text-align: left;">ParticipantID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitIntradayCombined_20230626-20230627</td>
+<td style="text-align: left;">ParticipantID</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitIntradayCombined_20230626-20230627</td>
+<td style="text-align: left;">ParticipantIdentifier</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitIntradayCombined_20230626-20230627</td>
+<td style="text-align: left;">Type</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitIntradayCombined_20230626-20230627</td>
+<td style="text-align: left;">DateTime</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitIntradayCombined_20230626-20230627</td>
+<td style="text-align: left;">Value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitIntradayCombined_20230626-20230627</td>
+<td style="text-align: left;">InsertedDate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FitbitIntradayCombined_20230626-20230627</td>
+<td style="text-align: left;">Level</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FitbitIntradayCombined_20230626-20230627</td>
+<td style="text-align: left;">Mets</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">CalendarDate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">ActiveKilocalories</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">BmrKilocalories</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">Steps</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">DistanceInMeters</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">DurationInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">ActiveTimeInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeOffsetInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">ModerateIntensityDurationInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">VigorousIntensityDurationInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">FloorsClimbed</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">StepsGoal</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">IntensityDurationGoalInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">FloorsClimbedGoal</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">AverageStressLevel</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">StressQualifier</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">ActivityStressDurationInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">TimeOffsetHeartRateSamples</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantIdentifier</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">SummaryId</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">InsertedDate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">MinHeartRateInBeatsPerMinute</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">MaxHeartRateInBeatsPerMinute</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">AverageHeartRateInBeatsPerMinute</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">RestingHeartRateInBeatsPerMinute</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">MaxStressLevel</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">StressDurationInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">RestStressDurationInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">LowStressDurationInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">MediumStressDurationInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminDailySummary_20230626-20230627</td>
+<td style="text-align: left;">HighStressDurationInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeOffsetInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">ActivityType</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">DurationInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">ActiveTimeInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">Steps</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">DistanceInMeters</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">ActiveKilocalories</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">Met</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">Intensity</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">MeanMotionIntensity</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">MaxMotionIntensity</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantIdentifier</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">SummaryId</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminEpochSummary_20230626-20230627</td>
+<td style="text-align: left;">InsertedDate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminHrvSummary_20230626-20230627</td>
+<td style="text-align: left;">CalendarDate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminHrvSummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminHrvSummary_20230626-20230627</td>
+<td style="text-align: left;">DurationInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminHrvSummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeOffsetInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminHrvSummary_20230626-20230627</td>
+<td style="text-align: left;">LastNightAvg</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminHrvSummary_20230626-20230627</td>
+<td style="text-align: left;">LastNight5MinHigh</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminHrvSummary_20230626-20230627</td>
+<td style="text-align: left;">HrvValues</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminHrvSummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantID</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminHrvSummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantIdentifier</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminHrvSummary_20230626-20230627</td>
+<td style="text-align: left;">SummaryId</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminHrvSummary_20230626-20230627</td>
+<td style="text-align: left;">InsertedDate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminPulseOxSummary_20230626-20230627</td>
+<td style="text-align: left;">CalendarDate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminPulseOxSummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminPulseOxSummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeOffsetInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminPulseOxSummary_20230626-20230627</td>
+<td style="text-align: left;">DurationInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminPulseOxSummary_20230626-20230627</td>
+<td style="text-align: left;">TimeOffsetSpo2Values</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminPulseOxSummary_20230626-20230627</td>
+<td style="text-align: left;">OnDemand</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminPulseOxSummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantID</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminPulseOxSummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantIdentifier</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminPulseOxSummary_20230626-20230627</td>
+<td style="text-align: left;">SummaryId</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminPulseOxSummary_20230626-20230627</td>
+<td style="text-align: left;">InsertedDate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminRespirationSummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminRespirationSummary_20230626-20230627</td>
+<td style="text-align: left;">DurationInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminRespirationSummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeOffsetInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminRespirationSummary_20230626-20230627</td>
+<td style="text-align: left;">TimeOffsetEpochToBreaths</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminRespirationSummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantID</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminRespirationSummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantIdentifier</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminRespirationSummary_20230626-20230627</td>
+<td style="text-align: left;">SummaryId</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminRespirationSummary_20230626-20230627</td>
+<td style="text-align: left;">InsertedDate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">CalendarDate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeOffsetInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">DurationInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">UnmeasurableSleepInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">DeepSleepDurationInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">LightSleepDurationInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">RemSleepInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">AwakeDurationInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">SleepLevelsMap</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">Validation</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">TimeOffsetSleepRespiration</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">TimeOffsetSleepSpo2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">SleepScoreModels</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantID</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantIdentifier</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">SummaryId</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">InsertedDate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">OverallSleepScore</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminSleepSummary_20230626-20230627</td>
+<td style="text-align: left;">SleepScores</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminStressDetailSummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminStressDetailSummary_20230626-20230627</td>
+<td style="text-align: left;">StartTimeOffsetInSeconds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminStressDetailSummary_20230626-20230627</td>
+<td style="text-align: left;">DurationInSeconds</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminStressDetailSummary_20230626-20230627</td>
+<td style="text-align: left;">CalendarDate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminStressDetailSummary_20230626-20230627</td>
+<td style="text-align: left;">TimeOffsetStressLevelValues</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminStressDetailSummary_20230626-20230627</td>
+<td style="text-align: left;">TimeOffsetBodyBatteryValues</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminStressDetailSummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantID</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminStressDetailSummary_20230626-20230627</td>
+<td style="text-align: left;">ParticipantIdentifier</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GarminStressDetailSummary_20230626-20230627</td>
+<td style="text-align: left;">SummaryId</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GarminStressDetailSummary_20230626-20230627</td>
+<td style="text-align: left;">InsertedDate</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
