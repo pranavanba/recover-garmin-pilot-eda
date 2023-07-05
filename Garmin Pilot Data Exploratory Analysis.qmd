@@ -30,6 +30,13 @@ unzip(garmin_pilot_files$path, exdir = '~/recover-garmin-pilot-eda/garmin_pilot_
 garmin_manifest <- read.csv('~/recover-garmin-pilot-eda/garmin_pilot_files/Manifest.csv')
 ```
 
+## Pilot File Zip Metadata
+
+```{r}
+metadata <- garmin_manifest %>% melt_df() %>% filter(grepl("*Date*$|*Export*|*Excluded*", concept)) %>% rename(metadata=concept)
+metadata
+```
+
 ## Cleaned Manifest
 
 ```{r}
