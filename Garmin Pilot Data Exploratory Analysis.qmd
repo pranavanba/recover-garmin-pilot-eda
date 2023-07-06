@@ -5,6 +5,8 @@ format:
   html:
     toc: true
     df-print: kable
+    embed-resources: true
+    smooth-scroll: true
 editor: visual
 execute:
   echo: false
