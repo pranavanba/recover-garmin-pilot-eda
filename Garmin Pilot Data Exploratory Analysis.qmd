@@ -95,3 +95,13 @@ file_var_df
 ```
 
 # Pilot Data Comparison: Fitbit vs Garmin
+
+```{r}
+#| output: false
+fitbit_pilot_zip_ids <- c('syn50894461', 'syn50894462', 'syn50894463', 'syn50894465', 'syn50894466', 'syn50894467', 'syn50894468', 'syn50894469', 'syn50894470', 'syn43437287', 'syn43437292')
+
+for (zip in fitbit_pilot_zip_ids) {
+  dl <- synGet(zip)
+  unzip(dl$path, exdir = '~/recover-garmin-pilot-eda/fitbit_pilot_files')
+}
+```
